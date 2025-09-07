@@ -3,12 +3,14 @@ import os
 import json
 
 class Kafka:
-    def __init__(self,sub_topic):
+    def __init__(self):
         self.bootstrap_servers = os.getenv("KAFKA_HOST","localhost:9092")
         self.group_id = os.getenv("GROUP_ID","GROUP_ID")
-        self.producer = self.create_producer()
-        self.consumer = self.create_consumer()
-        self.sub_topic = sub_topic
+        self.producer = None
+        # self.create_producer()
+        self.consumer = None
+        # self.create_consumer(sub_topic)
+        # self.sub_topic = sub_topic
 
     def create_producer(self):
         try:
@@ -21,10 +23,10 @@ class Kafka:
             print(ex)
             raise Exception(ex)
 
-    def create_consumer(self):
+    def create_consumer(self,sub_topic):
         try:
             self.consumer = KafkaConsumer(
-                self.sub_topic,
+                sub_topic,
                 bootstrap_servers=self.bootstrap_servers,
                 group_id=self.group_id,
                 value_deserializer=lambda v: json.loads(v.decode("utf-8"))
