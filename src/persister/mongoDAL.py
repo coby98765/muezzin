@@ -8,7 +8,7 @@ class MongoDAL:
         self.DB_HOST = os.getenv("MONGO_HOST","mongodb://localhost:27017/")
         self.DB_NAME = os.getenv("MONGO_NAME","muezzin")
         self.DB_COLL = os.getenv("MONGO_REPORT_COLL", "podcasts_meta")
-        self.DB_COLL = os.getenv("MONGO_FILE_COLL", "podcasts_raw")
+        self.DB_COLL = os.getenv("MONGO_FILE_COLL", "podcasts_metadata")
 
     def load_report(self,report):
         try:
@@ -41,7 +41,7 @@ class MongoDAL:
                 file_data = f.read()
 
             # store in GridFS
-            file_id = fs.put(file_data, filename=file_name, content_type='audio/wav')
+            file_id = fs.put(file_data, _id=file_name, content_type='audio/wav')
             print(f"WAV file '{file_path}' uploaded successfully with GridFS ID: {file_id}")
             return file_id
         except FileNotFoundError:
