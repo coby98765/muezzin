@@ -1,4 +1,5 @@
 from datetime import datetime
+from bson.objectid import ObjectId
 import os
 
 format_string_dt = "%Y-%m-%d %H:%M:%S"
@@ -7,7 +8,7 @@ format_string_dt_with_ms = "%Y-%m-%d %H:%M:%S.%f"
 class Podcast:
     name: str
     prev_path: str
-    db_id: str
+    db_id: ObjectId
     size: int
     last_open: datetime
     last_modified: datetime
@@ -18,7 +19,7 @@ class Podcast:
 
         self.name = report["file_name"]
         self.prev_path = report["file_path"]
-        self.db_id = str(db_id)
+        self.db_id = db_id
         self.size = report["file_size"]
         self.last_open = datetime.strptime(report["created_time"], format_string_dt)
         self.last_modified = datetime.strptime(report["last_edit_time"], format_string_dt_with_ms)
