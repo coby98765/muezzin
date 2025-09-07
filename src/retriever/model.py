@@ -1,7 +1,6 @@
 from datetime import datetime
 import os
 
-
 class Podcast:
     name: str
     path: str
