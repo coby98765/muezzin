@@ -1,0 +1,18 @@
+from src.utils.logger import Logger
+from manager import Manager
+
+# logger setup
+logger = Logger.get_logger(index="transcriber_log",name="transcriber.main.py")
+
+
+manager = Manager()
+
+if __name__ == "__main__":
+    try:
+        logger.info('main, Services Setup start...')
+        manager.setup()
+        logger.info('main, Services Setup Complete...')
+        logger.info('main, Listening to Kafka ...')
+        manager.listener()
+    except Exception as e:
+        logger.error(f"main, Error: {e}")
