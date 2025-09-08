@@ -17,7 +17,7 @@ ES_HOST
 using the Kafka Connection and Subscriber From file: `src/utils/kafka_conn.py`
 
 ## Libraries
-`kafka-python`,`pymongo`, `os`, `datetime`,`elasticsearch`.
+`kafka-python`,`pymongo`, `os`, `datetime`,`elasticsearch`,`logging`.
 
 
 ## Elastic Mapping

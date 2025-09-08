@@ -28,11 +28,9 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 #Declare ENV var's
 ENV KAFKA_HOST=""
 ENV GROUP_ID=""
-ENV MONGO_HOST=""
-ENV MONGO_NAME=""
-ENV MONGO_COLL=""
-ENV IMPORT_TOPIC=""
-ENV ES_HOST=""
+ENV DIR_PATH=""
+ENV EXPORT_TOPIC=""
+
 
 # Copy the application source code
 COPY . /app/

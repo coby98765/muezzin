@@ -26,4 +26,4 @@ Export using `__dict__()` method
 using the Kafka Connection and Publisher From file: `src/utils/kafka_conn.py`
 
 ## Libraries
-`kafka-python`,`pathlib`, `os`, `datetime`.
+`kafka-python`,`pathlib`, `os`, `datetime`,`logging`.
