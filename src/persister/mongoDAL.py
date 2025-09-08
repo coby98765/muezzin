@@ -9,6 +9,14 @@ class MongoDAL:
         self.DB_NAME = os.getenv("MONGO_NAME","muezzin")
         self.DB_COLL = os.getenv("MONGO_REPORT_COLL", "podcasts_meta")
         self.DB_COLL = os.getenv("MONGO_FILE_COLL", "podcasts_metadata")
+        try:
+            client = MongoClient(self.DB_HOST)
+        except Exception as err:
+            print(f"MongoDAL.init Unexpected error: {err}")
+            raise
+        finally:
+            client.close()
+
 
     def load_report(self,report):
         try:
@@ -27,7 +35,7 @@ class MongoDAL:
             print(f"Configuration error: {err}")
             raise
         except Exception as err:
-            print(f"Unexpected error: {err}")
+            print(f"MongoDB.load_report Unexpected error: {err}")
             raise
         finally:
             client.close()
@@ -47,6 +55,6 @@ class MongoDAL:
         except FileNotFoundError:
             print(f"Error: WAV file not found at '{file_path}'")
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print(f"MongoDB.load_file An error occurred: {e}")
         finally:
             client.close()

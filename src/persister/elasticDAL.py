@@ -31,9 +31,13 @@ class ElasticDAL:
 
 
     def insert_data(self,report):
-        self.es.index(
-            index=self.index_name,
-            id=report["_id"],
-            body=report
-        )
-        print(f"Indexed {report["_id"]} report.")
+        try:
+            _id = report.pop("_id")
+            self.es.index(
+                index=self.index_name,
+                id=_id,
+                body=report
+            )
+            print(f"Indexed {_id} report.")
+        except Exception as e:
+            print(f"Error ElasticDAL.insert_data: {e}")

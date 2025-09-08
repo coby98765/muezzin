@@ -37,7 +37,6 @@ class Podcast:
     @staticmethod
     def map():
         return {
-            "_id": {"type": "keyword"},
             "file_name": {"type": "keyword"},
             "prev_path": {"type": "keyword"},
             "file_size": {"type": "int"},
