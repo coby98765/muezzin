@@ -19,9 +19,9 @@ Create a temporary container and mount the volume, MOve Podcasts Files to volume
 docker run -d --rm --name my_temp_container -v muezzin_volume:/data alpine tail -f /dev/null
 
 docker cp ./data/podcasts my_temp_container:/data
-
+```
+```bash
 docker rm my_temp_container
-
 ```
 
 pull MongoDB Image
