@@ -1,7 +1,9 @@
 from elasticsearch import Elasticsearch, helpers
-from elasticsearch.exceptions import NotFoundError
+from src.utils.logger import Logger
 import os
 
+# logger setup
+logger = Logger.get_logger(index="persister_log",name="persister.elasticDAL.py")
 
 class ElasticDAL:
     def __init__(self,index_name="podcasts"):
@@ -9,11 +11,15 @@ class ElasticDAL:
         self.index_name = index_name
         self.request_timeout = 20
         self.verify_certs = True
-        self.es = Elasticsearch(
-            hosts=HOST,
-            request_timeout=self.request_timeout,
-            verify_certs=self.verify_certs
-        )
+        try:
+            self.es = Elasticsearch(
+                hosts=HOST,
+                request_timeout=self.request_timeout,
+                verify_certs=self.verify_certs
+            )
+            logger.info(f'ElasticDAL.init, connected to ElasticSearch.')
+        except Exception as e:
+            logger.error(f"ElasticDAL.init, Error: {e}")
 
     def map_index(self,report_map:dict):
         mapping = dict()
@@ -25,10 +31,9 @@ class ElasticDAL:
                 body=mapping,
                 ignore=400
             )
-            print(f"Index '{self.index_name}' created successfully with mapping.")
+            logger.info(f'ElasticDAL.map_index, Index "{self.index_name}" created successfully with mapping.')
         except Exception as e:
-            print(f"Error creating index: {e}")
-
+            logger.error(f"ElasticDAL.map_index, Error: {e}")
 
     def insert_data(self,report):
         try:
@@ -38,6 +43,7 @@ class ElasticDAL:
                 id=_id,
                 body=report
             )
-            print(f"Indexed {_id} report.")
+            logger.info(f'ElasticDAL.insert_data, Indexed {_id} report.')
+
         except Exception as e:
-            print(f"Error ElasticDAL.insert_data: {e}")
+            logger.error(f"ElasticDAL.insert_data, Error: {e}")
