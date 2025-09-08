@@ -1,6 +1,6 @@
 # muezzin/persister
 receives metadata reports from kafka to topic `IMPORT_TOPIC` env, 
-adds report to MongoDB and ElasticSearch
+create a file identifier based on created date like: `podcast1_` adds report to MongoDB and ElasticSearch
 
 ## ENV
 ```commandline
@@ -22,27 +22,12 @@ using the Kafka Connection and Subscriber From file: `src/utils/kafka_conn.py`
 
 ## Elastic Mapping
 ```python
-POST <index_name>/_mapping
-
-{
-"properties": {
-"birthday": {
-"type": "datetime",
-"format": "yyyy-MM-dd”
-},
-"name": {
-"properties": {
-"first": {
-"type": "keyword"
-},
-"last": {
-"type": "keyword"
-}
-}
-},
-"bio": {
-"type": "text"
-}
-}
-}
+class Podcast:
+    _id:str
+    name: str
+    prev_path: str
+    size: int
+    last_open: datetime
+    last_modified: datetime
+    created_time: datetime
 ```

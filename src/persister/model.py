@@ -34,3 +34,14 @@ class Podcast:
             "last_edit_time": self.last_modified,
             "last_open_time": self.last_open,
         }
+    @staticmethod
+    def map():
+        return {
+            "_id": {"type": "keyword"},
+            "file_name": {"type": "keyword"},
+            "prev_path": {"type": "keyword"},
+            "file_size": {"type": "int"},
+            "created_time": {"type": "date"},
+            "last_edit_time": {"type": "date"},
+            "last_open_time": {"type": "date"},
+        }
