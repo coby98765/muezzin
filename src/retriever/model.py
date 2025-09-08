@@ -25,10 +25,3 @@ class Podcast:
             "last_edit_time": str(self.last_modified),
             "last_open_time": str(self.last_open),
         }
-    def printr(self):
-        print(f"File name: {self.name}, \n"
-              f"File path: {self.path}, \n"
-              f"File size: {self.size}, \n"
-              f"Created at: {self.created_time}, \n"
-              f"Last accessed at: {self.last_open}, \n"
-              f"Last modified at: {self.last_modified}.")

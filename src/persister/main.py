@@ -9,7 +9,6 @@ manager = Manager()
 
 if __name__ == "__main__":
     try:
-        print()
         logger.info('main, Services Setup start...')
         manager.setup()
         logger.info('main, Services Setup Complete...')

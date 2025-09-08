@@ -48,7 +48,6 @@ class Kafka:
     def sub(self):
         try:
             for msg in self.consumer:
-                print("received: ",msg.value,type(msg))
                 logger.info('Kafka.sub, received report.')
 
                 yield msg.value
