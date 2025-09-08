@@ -12,7 +12,6 @@ class MongoDAL:
         self.DB_HOST = os.getenv("MONGO_HOST","mongodb://localhost:27017/")
         self.DB_NAME = os.getenv("MONGO_NAME","muezzin")
         self.DB_COLL = os.getenv("MONGO_REPORT_COLL", "podcasts_meta")
-        self.DB_COLL = os.getenv("MONGO_FILE_COLL", "podcasts_metadata")
         client = None
         try:
             client = MongoClient(self.DB_HOST)
