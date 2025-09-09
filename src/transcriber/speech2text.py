@@ -2,6 +2,7 @@ from pydub.silence import split_on_silence
 from src.utils.logger import Logger
 import speech_recognition as sr
 from pydub import AudioSegment
+from datetime import datetime
 import shutil
 import os
 
@@ -39,8 +40,8 @@ class Speech2Text:
                 #sphinx works offline but not perfect
                 # text = self.r.recognize_sphinx(audio_listened)
             except sr.UnknownValueError:
+                self.handel_corrupted_chunk(chunk)
                 logger.error(f"Speech2Text.transcribe_chunk, Could not understand audio in chunk {chunk}.")
-                raise Exception("UnknownValueError")
             except sr.RequestError as e:
                 logger.error(f"Speech2Text.transcribe_chunk, Could not request results from Google Speech Recognition service; {e}.")
                 raise Exception(e)
@@ -48,6 +49,7 @@ class Speech2Text:
         return text
 
     def load_and_split(self,audio_path):
+        logger.info(f'Speech2Text.load_and_split, beginning transcription for file: {audio_path}.')
         # load audio
         audio = AudioSegment.from_wav(audio_path)
         # split to chunks
@@ -76,4 +78,11 @@ class Speech2Text:
                 raise Exception(e)
         return temp_files
 
+    def handel_corrupted_chunk(self,corrupted):
+        corrupted_dir = "corrupted"
+        if os.path.isdir(corrupted_dir):
+            os.mkdir(self.temp_path)
 
+        destination_file_name = f"corrupted/{corrupted}_{datetime.now()}"
+        shutil.copy(corrupted, destination_file_name)
+        logger.debug(f"Speech2Text.handel_corrupted_chunk, corrupted file saved to: {destination_file_name}.")
