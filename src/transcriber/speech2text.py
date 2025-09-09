@@ -1,7 +1,9 @@
+from pydub.silence import split_on_silence
 # from src.utils.logger import Logger
 import speech_recognition as sr
 from pydub import AudioSegment
-from pydub.silence import split_on_silence
+import shutil
+import os
 
 
 # logger setup
@@ -11,6 +13,7 @@ from pydub.silence import split_on_silence
 class Speech2Text:
     def __init__(self):
         self.r = sr.Recognizer()
+        self.temp_path = "temp"
 
     def transcribe_all(self,audio_chunks):
         full_text = []
@@ -19,6 +22,10 @@ class Speech2Text:
             full_text.append(text)
         if not full_text:
             raise Exception("Empty transcription.")
+
+        if os.path.isdir(self.temp_path):
+            shutil.rmtree(self.temp_path)
+
         return " ".join(full_text)
 
     def transcribe_chunk(self,chunk):
@@ -33,8 +40,7 @@ class Speech2Text:
                 print(f"Could not request results from Google Speech Recognition service; {e}")
         return text
 
-    @staticmethod
-    def load_and_split(audio_path):
+    def load_and_split(self,audio_path):
         # load audio
         audio = AudioSegment.from_wav(audio_path)
         # split to chunks
@@ -44,9 +50,14 @@ class Speech2Text:
               )
         return chunks
 
-    @staticmethod
-    def export_chunks(chunks):
+    def export_chunks(self,chunks):
         temp_files = []
+        # if temp files already exist delete the prev files
+        if os.path.isdir(self.temp_path):
+            shutil.rmtree(self.temp_path)
+        #create a temp folder
+        os.mkdir(self.temp_path)
+
         for i, chunk in enumerate(chunks):
             try:
                 # Export chunk to a temporary file
