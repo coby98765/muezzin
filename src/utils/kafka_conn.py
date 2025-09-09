@@ -51,6 +51,10 @@ class Kafka:
                 logger.info('Kafka.sub, received report.')
 
                 yield msg.value
+            return
         except Exception as ex:
             logger.error(f"Kafka.sub, Error: {ex}")
             raise Exception(ex)
+        finally:
+            self.consumer.close()
+            logger.info('Kafka.sub, consumer closed.')
