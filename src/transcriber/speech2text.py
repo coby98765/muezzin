@@ -40,7 +40,7 @@ class Speech2Text:
                 #sphinx works offline but not perfect
                 # text = self.r.recognize_sphinx(audio_listened)
             except sr.UnknownValueError:
-                self.handel_corrupted_chunk(chunk)
+                Speech2Text.handel_corrupted_chunk(chunk)
                 logger.error(f"Speech2Text.transcribe_chunk, Could not understand audio in chunk {chunk}.")
             except sr.RequestError as e:
                 logger.error(f"Speech2Text.transcribe_chunk, Could not request results from Google Speech Recognition service; {e}.")
@@ -54,7 +54,7 @@ class Speech2Text:
         audio = AudioSegment.from_wav(audio_path)
         # split to chunks
         chunks = split_on_silence(audio,
-              min_silence_len=500,
+              min_silence_len=600,
               silence_thresh=-40
               )
         return chunks
@@ -78,11 +78,15 @@ class Speech2Text:
                 raise Exception(e)
         return temp_files
 
-    def handel_corrupted_chunk(self,corrupted):
+    @staticmethod
+    def handel_corrupted_chunk(corrupted):
         corrupted_dir = "corrupted"
-        if os.path.isdir(corrupted_dir):
-            os.mkdir(self.temp_path)
+        if not os.path.isdir(corrupted_dir):
+            os.mkdir(corrupted_dir)
 
-        destination_file_name = f"corrupted/{corrupted}_{datetime.now()}"
-        shutil.copy(corrupted, destination_file_name)
+        destination_file_name = f"debug_{datetime.now().strftime("%Y%m%d_%H%M%S%f")}.wav"
+        # shutil.copy(corrupted, destination_file_name)
+        shutil.copy2(corrupted, fr"{corrupted_dir}/{destination_file_name}")
+
         logger.debug(f"Speech2Text.handel_corrupted_chunk, corrupted file saved to: {destination_file_name}.")
+
