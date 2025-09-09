@@ -11,6 +11,7 @@ class Podcast:
     name: str
     file_path: str
     size: int
+    transcript:str
     last_open: datetime
     last_modified: datetime
     created_time: datetime
@@ -20,6 +21,7 @@ class Podcast:
         self.name = report["file_name"]
         self.file_path = report["file_path"]
         self.size = report["file_size"]
+        self.transcript = report["transcript"]
         self.last_open = datetime.strptime(report["created_time"], format_string_dt)
         self.last_modified = datetime.strptime(report["last_edit_time"], format_string_dt_with_ms)
         self.created_time = datetime.strptime(report["created_time"], format_string_dt)
@@ -30,6 +32,7 @@ class Podcast:
             "file_name": self.name,
             "file_path": self.file_path,
             "file_size": self.size,
+            "transcript":self.transcript,
             "created_time": self.created_time,
             "last_edit_time": self.last_modified,
             "last_open_time": self.last_open,
@@ -40,6 +43,7 @@ class Podcast:
             "file_name": {"type": "keyword"},
             "file_path": {"type": "keyword"},
             "file_size": {"type": "int"},
+            "transcript":{"type": "text"},
             "created_time": {"type": "date"},
             "last_edit_time": {"type": "date"},
             "last_open_time": {"type": "date"},
