@@ -32,7 +32,7 @@ class Manager:
                 _id = f"podcast{counter}_{report["created_time"][:9]}"
                 report_model = Podcast(report, _id)
                 # upload podcast file to mongoDB
-                self.mongoDAL.load_file(report_model.prev_path, _id)
+                self.mongoDAL.load_file(report_model.file_path, _id)
                 #send metadata to Elastic & Backup to MongoDB
                 self.elasticDAL.insert_data(report_model.__dict__())
                 res = self.mongoDAL.load_report(report_model.__dict__())
