@@ -3,6 +3,12 @@
 receives metadata reports with transcripts for podcast that are flagged for being hostile, 
 based on th transcripts podcasts need to be analyzed and categorized into danger categories,
 incoming reports in Kafka topic `INPORT_TOPIC` (env), and after process will be exported to `EXPORT_TOPIC`(env).
+
+## BDS Classification Guide
+- bds_percent:
+- is_bds:
+- bds_threat_level:
+
 ## ENV
 ```commandline
 KAFKA_HOST
