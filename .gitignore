@@ -1,5 +1,6 @@
-data/podcasts
-
+/data/podcasts
+/src/transcriber/corrupted/
+/src/transcriber/temp/
 
 
 # Byte-compiled / optimized / DLL files
