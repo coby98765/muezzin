@@ -25,7 +25,7 @@ using the Kafka Connection and Subscriber From file: `src/utils/kafka_conn.py`
 class Podcast:
     _id:str
     name: str
-    prev_path: str
+    file_path: str
     size: int
     last_open: datetime
     last_modified: datetime

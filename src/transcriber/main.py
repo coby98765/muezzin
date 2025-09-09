@@ -3,11 +3,13 @@ from manager import Manager
 import os
 
 # logger setup
-logger = Logger.get_logger(index="persister_log",name="persister.main.py")
+logger = Logger.get_logger(index="transcriber_log",name="transcriber.main.py")
 
-SUB_TOPIC = os.getenv("IMPORT_TOPIC","metadata_transcription")
+PUB_TOPIC = os.getenv("EXPORT_TOPIC","metadata_transcription")
+SUB_TOPIC = os.getenv("IMPORT_TOPIC","podcast_meta")
 
-manager = Manager(SUB_TOPIC)
+manager = Manager(PUB_TOPIC,SUB_TOPIC)
+
 
 if __name__ == "__main__":
     try:
