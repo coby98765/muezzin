@@ -5,8 +5,8 @@ import os
 # logger setup
 logger = Logger.get_logger(index="transcriber_log",name="transcriber.main.py")
 
-PUB_TOPIC = os.getenv("PUB_TOPIC","metadata_transcription")
-SUB_TOPIC = os.getenv("SUB_TOPIC","podcast_meta")
+PUB_TOPIC = os.getenv("EXPORT_TOPIC","metadata_transcription")
+SUB_TOPIC = os.getenv("IMPORT_TOPIC","podcast_meta")
 
 manager = Manager(PUB_TOPIC,SUB_TOPIC)
 

@@ -1,11 +1,13 @@
 from src.utils.logger import Logger
 from manager import Manager
+import os
 
 # logger setup
 logger = Logger.get_logger(index="persister_log",name="persister.main.py")
 
+SUB_TOPIC = os.getenv("IMPORT_TOPIC","metadata_transcription")
 
-manager = Manager()
+manager = Manager(SUB_TOPIC)
 
 if __name__ == "__main__":
     try:

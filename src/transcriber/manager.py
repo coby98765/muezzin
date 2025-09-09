@@ -20,7 +20,6 @@ class Manager:
             self.kafka.create_consumer(self.sup_topic)
             self.kafka.create_producer()
             self.t2s = Speech2Text()
-            logger.info(f'Manager.setup, Setup Complete.')
         except Exception as e:
             logger.error(f"Manager.setup, Error: {e}")
             raise
@@ -36,7 +35,7 @@ class Manager:
                 # add Transcription to Object
                 report.add_transcript(transcription)
                 # send updated report on Kafka Pub
-                self.kafka.pub(report,self.pub_topic)
+                self.kafka.pub(report.__dict__(),self.pub_topic)
                 pass
             except Exception as e:
                 logger.error(f"Manager.listener, Error: {e}")

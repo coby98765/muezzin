@@ -8,9 +8,12 @@ from model import Podcast
 logger = Logger.get_logger(index="persister_log",name="persister.manager.py")
 
 class Manager:
-    mongoDAL = None
-    elasticDAL = None
-    kafka = None
+    def __init__(self,sub_topic):
+        self.mongoDAL = None
+        self.elasticDAL = None
+        self.kafka = None
+        self.sub_topic = sub_topic
+
 
     def setup(self):
         try:
@@ -18,7 +21,7 @@ class Manager:
             self.elasticDAL = ElasticDAL()
             self.elasticDAL.map_index(Podcast.map())
             self.kafka = Kafka()
-            self.kafka.create_consumer("podcast_meta")
+            self.kafka.create_consumer(self.sub_topic)
             logger.info(f'Manager.setup, Setup Complete.')
         except Exception as e:
             logger.error(f"Manager.setup, Error: {e}")
