@@ -14,9 +14,9 @@ class Manager:
         self.kafka = None
         self.processor = None
 
-    def setup(self):
+    def setup(self,group_id):
         try:
-            self.kafka = Kafka()
+            self.kafka = Kafka(group_id)
             self.kafka.create_consumer(self.sup_topic)
             self.kafka.create_producer()
             self.processor = Processor()

@@ -15,12 +15,12 @@ class Manager:
         self.sub_topic = sub_topic
 
 
-    def setup(self):
+    def setup(self,group_id):
         try:
             self.mongoDAL = MongoDAL()
             self.elasticDAL = ElasticDAL()
             self.elasticDAL.map_index(Podcast.map())
-            self.kafka = Kafka()
+            self.kafka = Kafka(group_id)
             self.kafka.create_consumer(self.sub_topic)
             logger.info(f'Manager.setup, Setup Complete.')
         except Exception as e:

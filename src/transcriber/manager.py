@@ -14,9 +14,9 @@ class Manager:
         self.kafka = None
         self.t2s = None
 
-    def setup(self):
+    def setup(self,group_id):
         try:
-            self.kafka = Kafka()
+            self.kafka = Kafka(group_id)
             self.kafka.create_consumer(self.sup_topic)
             self.kafka.create_producer()
             self.t2s = Speech2Text()
@@ -32,6 +32,7 @@ class Manager:
                 report = Podcast(r)
                 # transcribe podcast
                 transcription = self.transcribe(report.file_path)
+                # transcription = ""
                 # add Transcription to Object
                 report.add_transcript(transcription)
                 # send updated report on Kafka Pub
