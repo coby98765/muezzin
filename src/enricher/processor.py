@@ -3,7 +3,7 @@ from src.utils.file_IO import FileIO
 from src.utils.logger import Logger
 
 # logger setup
-logger = Logger.get_logger(index="enricher_log",name="enricher")
+logger = Logger.get_logger(index="enricher_log",name="enricher.processor.py")
 
 
 class Processor:
@@ -15,6 +15,7 @@ class Processor:
             hostile_data = FileIO.import_json("../../data/hostile_words.json")
             self.hostile_words = hostile_data["hostile"]
             self.less_hostile_words = hostile_data["less_hostile"]
+            logger.info(f'Processor.init, hostile_data received.')
         except Exception as e:
             msg = f"error: {e}"
             logger.error(f"Processor.init, {msg}")
@@ -33,7 +34,7 @@ class Processor:
         bds_stats["bds_percent"] = self.calc_bds_percent(sum_points, word_count, sentiment)
         bds_stats["is_bds"] = self.calc_is_bds(bds_stats["bds_percent"])
         bds_stats["bds_threat_level"] = self.calc_threat_level(bds_stats["bds_percent"])
-
+        logger.info(f'Processor.run, Calculation process complete.')
         return bds_stats
 
     @staticmethod
@@ -56,7 +57,7 @@ class Processor:
         elif score < 0:
             return 0
         else:
-            return score
+            return int(score)
 
     @staticmethod
     def calc_is_bds(percent:float):
