@@ -14,14 +14,13 @@ PUB_TOPIC = os.getenv("EXPORT_TOPIC","podcast_enriched")
 SUB_TOPIC = os.getenv("IMPORT_TOPIC","podcast_transcription")
 GROUP_ID = os.getenv("GROUP_ID", "enricher")
 
-kafka_conn = Kafka(GROUP_ID)
 manager = Manager(PUB_TOPIC,SUB_TOPIC)
 
 
 if __name__ == "__main__":
     try:
         logger.info('main, Services Setup start...')
-        manager.setup()
+        manager.setup(GROUP_ID)
         logger.info('main, Services Setup Complete...')
         logger.info('main, Listening to Kafka ...')
         manager.listener()
