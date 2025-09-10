@@ -60,7 +60,47 @@ class FileIO:
             logger.error(f"FileIO.export_json, {msg}")
             raise Exception(msg)
 
+    @staticmethod
+    def export_binary_file(destination,filename, data_bytes,file_type):
+        path_and_name=""
+        try:
+            # validate filename
+            name_valid, msg = FileIO.validate_filename(filename)
+            if not name_valid:
+                raise Exception(msg)
+            # validate path
+            if not os.path.isdir(destination):
+                os.mkdir(destination)
 
+            path_and_name = f"{destination}/{filename}.{file_type}"
+
+            with open(path_and_name, 'wb') as f:
+                f.write(data_bytes)
+            logger.info(f"FileIO.write_binary_file, wrote data to '{path_and_name}'")
+        except IOError as e:
+            msg = f"Error writing to file '{filename}': {e}"
+            logger.error(f"FileIO.write_binary_file, {msg}")
+            raise Exception(msg)
+        except Exception as e:
+            msg = f"An unexpected error occurred: {e}"
+            logger.error(f"FileIO.write_binary_file, {msg}")
+            raise Exception(msg)
+
+    @staticmethod
+    def import_binary_file(path):
+        try:
+            with open(path, 'rb') as file:
+                data = file.read()
+            logger.info(f'FileIO.import_binary_file, imported data: {path}')
+            return data
+        except FileNotFoundError:
+            msg = f"Error: file '{path}' not found."
+            logger.error(f"FileIO.import_binary_file, {msg}")
+            raise Exception(msg)
+        except Exception as e:
+            msg = f"error: {e}"
+            logger.error(f"FileIO.import_binary_file, {msg}")
+            raise Exception(msg)
 
     @staticmethod
     def validate_filename(filename):
