@@ -10,7 +10,7 @@ services:
     volumes:
       - mongodb_data:/data/db
     networks:
-      - my_network
+      - muezzin_network
 
   # Kafka Service
   kafka:
@@ -33,6 +33,8 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
     volumes:
       - kafka_data:/var/lib/kafka/data
+    networks:
+      - muezzin_network
 
   # Elasticsearch Service
   elasticsearch:
@@ -52,7 +54,7 @@ services:
     volumes:
       - es_data:/usr/share/elasticsearch/data
     networks:
-      - my_network
+      - muezzin_network
 
   # Kibana Service (for Elasticsearch UI)
   kibana:
@@ -65,13 +67,74 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - my_network
+      - muezzin_network
+  
+  retriever:
+    build:
+      context: ./src/retriever 
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_HOST=
+      - GROUP_ID=
+      - DIR_PATH=
+      - EXPORT_TOPIC=
+      - ES_HOST=
+    volumes:
+      - muezzin_volume:/data
+    networks:
+      - muezzin_network
+
+  transcriber:
+    build:
+      context: ./src/transcriber
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_HOST=
+      - GROUP_ID=
+      - IMPORT_TOPIC=
+      - EXPORT_TOPIC=
+      - ES_HOST=
+    volumes:
+      - muezzin_volume:/data
+    networks:
+      - muezzin_network
+  enricher:
+    build:
+      context: ./src/enricher
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_HOST=
+      - GROUP_ID=
+      - EXPORT_TOPIC=
+      - IMPORT_TOPIC=
+      - ES_HOST=
+    volumes:
+      - muezzin_volume:/data
+    networks:
+      - muezzin_network
+  persister:
+    build:
+      context: ./src/enricher
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_HOST=
+      - GROUP_ID=
+      - MONGO_HOST=
+      - MONGO_NAME=
+      - MONGO_COLL=
+      - IMPORT_TOPIC=
+      - ES_HOST=
+    volumes:
+      - muezzin_volume:/data
+    networks:
+      - muezzin_network
 
 volumes:
   kafka_data:
   es_data:
   mongo_data:
+  muezzin_volume:
 
 networks:
-  my_network:
+  muezzin_network:
     driver: bridge
