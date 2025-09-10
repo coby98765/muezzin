@@ -4,13 +4,15 @@ from model import Podcast
 from pathlib import Path
 import os
 
-DIR_PATH = os.getenv("DIR_PATH",r"C:\Users\Yaakov\PycharmProjects\muezzin\data\podcasts")
+DIR_PATH = os.getenv("DIR_PATH",r"C:\Users\Yaakov\PycharmProjects\muezzin\data\podcasts1")
 EXPORT_TOPIC = os.getenv("EXPORT_TOPIC","podcast_meta")
+GROUP_ID = os.getenv("GROUP_ID", "retriever")
+
 
 # logger setup
 logger = Logger.get_logger(index="retriever_log",name="retriever.main.py")
 
-kafka_conn = Kafka()
+kafka_conn = Kafka(GROUP_ID)
 
 def run(kafka):
     pathlist = Path(DIR_PATH).glob('**/*.wav')

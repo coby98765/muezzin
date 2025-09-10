@@ -7,9 +7,9 @@ import json
 logger = Logger.get_logger(index="kafka_log",name="kafka_connection")
 
 class Kafka:
-    def __init__(self):
+    def __init__(self,group_id):
         self.bootstrap_servers = os.getenv("KAFKA_HOST","localhost:9092")
-        self.group_id = os.getenv("GROUP_ID","GROUP_ID")
+        self.group_id = group_id
         self.producer = None
         self.consumer = None
 
