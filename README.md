@@ -13,7 +13,9 @@ a pipline setup for detecting threats from podcasts to the state of Israel, by t
   - Service details: [Enricher README.md](src/enricher/README.md)
 - **Persister**: receives the full reports and indexes them into `ElasticSearch`, and Uploads the original audio Files to `MongoDB` using `GridFS` (also saves a copy of the reports to MongoDB).
   - Service details: [Persister README.md](src/persister/README.md)
+## Map
 
+![Map](map.png)
 ## Technologies
 
 - Kafka
