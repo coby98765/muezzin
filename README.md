@@ -25,7 +25,7 @@ a pipline setup for detecting threats from podcasts to the state of Israel, by t
 
 ## Kibana Screenshots
 
-![Kibana Screenshot](data\kibana_screanshot.png)
+![Kibana Screenshot](kibana_screanshot.png)
 
 
 ## Setup guide
