@@ -46,7 +46,12 @@ python src/persister/main.py
 ```
 
 ### For Containerized run
-{!} 
+> Working on adding all containerizing to be one `docker-compose.yml`
+> to run: 
+> ```bash
+> docker compose up --build
+> ```
+
 create a Docker Volume:
 ```bash
 docker volume create muezzin_volume
