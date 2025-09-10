@@ -5,7 +5,7 @@ format_string_dt_with_ms = "%Y-%m-%d %H:%M:%S.%f"
 
 
 class Podcast:
-    _id:str
+    # _id:str
     name: str
     file_path: str
     size: int
@@ -18,7 +18,7 @@ class Podcast:
     created_time: datetime
 
     def __init__(self,report):
-        self._id = report["_id"]
+        # self._id = report["_id"]
         self.name = report["file_name"]
         self.file_path = report["file_path"]
         self.size = report["file_size"]
@@ -29,7 +29,7 @@ class Podcast:
 
     def __dict__(self):
         return {
-            "_id":self._id,
+            # "_id":self._id,
             "file_name": self.name,
             "file_path": self.file_path,
             "file_size": self.size,
@@ -37,9 +37,9 @@ class Podcast:
             "bds_percent":self.bds_percent,
             "is_bds": self.is_bds,
             "bds_threat_level": self.bds_threat_level,
-            "created_time": self.created_time,
-            "last_edit_time": self.last_modified,
-            "last_open_time": self.last_open,
+            "created_time": str(self.created_time),
+            "last_edit_time": str(self.last_modified),
+            "last_open_time": str(self.last_open),
         }
     def add_bds_stat(self,stats:dict):
         self.bds_percent = stats["bds_percent"]
