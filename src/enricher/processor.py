@@ -29,7 +29,6 @@ class Processor:
         sum_points = less_hostile_word_count + (hostile_word_count * 2)
         # get text sentiment
         sentiment = self.sentiment_detector(text)
-        print("sentiment:",sentiment)
         # calculate BDS based on hostile word appearance and sentiment
         bds_stats["bds_percent"] = self.calc_bds_percent(sum_points, word_count, sentiment)
         bds_stats["is_bds"] = self.calc_is_bds(bds_stats["bds_percent"])
@@ -46,7 +45,6 @@ class Processor:
             count = normalized_text.count(normalized_bad_word)
             if count > 0:
                 word_counts[hostile_word] = count
-        print(word_counts)
         return sum(word_counts.values())
 
     @staticmethod

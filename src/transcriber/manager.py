@@ -32,6 +32,7 @@ class Manager:
                 report = Podcast(r)
                 # transcribe podcast
                 transcription = self.transcribe(report.file_path)
+                # transcription = ""
                 # add Transcription to Object
                 report.add_transcript(transcription)
                 # send updated report on Kafka Pub
