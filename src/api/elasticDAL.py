@@ -33,7 +33,8 @@ class ElasticDAL:
                 index=self.index_name,
                 body=query_body)
             logger.info(f'ElasticDAL.get_all, got all.')
-            return response["hits"]["hits"]
+            clean_res = self.res_cleaner(response["hits"]["hits"])
+            return clean_res
         except Exception as e:
             logger.error(f"ElasticDAL.get_all, Error: {e}")
 
@@ -50,7 +51,8 @@ class ElasticDAL:
                 index=self.index_name,
                 body=query_body)
             logger.info(f'ElasticDAL.get_is_bds, got "is_bds".')
-            return response["hits"]["hits"]
+            clean_res = self.res_cleaner(response["hits"]["hits"])
+            return clean_res
         except Exception as e:
             logger.error(f"ElasticDAL.get_is_bds, Error: {e}")
 
@@ -67,7 +69,8 @@ class ElasticDAL:
                 index=self.index_name,
                 body=query_body)
             logger.info(f'ElasticDAL.get_threat_level, got "bds_threat_level"={level}.')
-            return response["hits"]["hits"]
+            clean_res = self.res_cleaner(response["hits"]["hits"])
+            return clean_res
         except Exception as e:
             logger.error(f"ElasticDAL.get_threat_level, Error: {e}")
 
@@ -84,6 +87,18 @@ class ElasticDAL:
                 index=self.index_name,
                 body=query_body)
             logger.info(f'ElasticDAL.get_all, searched for: "{text}" in transcripts.')
-            return response["hits"]["hits"]
+            clean_res = self.res_cleaner(response["hits"]["hits"])
+            return clean_res
         except Exception as e:
             logger.error(f"ElasticDAL.insert_data, Error: {e}")
+
+    @staticmethod
+    def res_cleaner(res):
+        try:
+            clean_res = {}
+            for r in res:
+                clean_res[r["_id"]] = r["_source"]
+                return clean_res
+        except Exception as e:
+            logger.error(f"ElasticDAL.res_cleaner, Error: {e}")
+            raise

@@ -1,5 +1,9 @@
+from src.utils.logger import Logger
 from fastapi import FastAPI
 from elasticDAL import ElasticDAL
+
+# logger setup
+logger = Logger.get_logger(index="api_log",name="api.elasticDAL.py")
 
 app = FastAPI()
 es = ElasticDAL()
