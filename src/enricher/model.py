@@ -17,8 +17,8 @@ class Podcast:
     last_modified: datetime
     created_time: datetime
 
-    def __init__(self,report,_id):
-        self._id = _id
+    def __init__(self,report):
+        self._id = report["_id"]
         self.name = report["file_name"]
         self.file_path = report["file_path"]
         self.size = report["file_size"]
@@ -34,18 +34,14 @@ class Podcast:
             "file_path": self.file_path,
             "file_size": self.size,
             "transcript":self.transcript,
+            "bds_percent":self.bds_percent,
+            "is_bds": self.is_bds,
+            "bds_threat_level": self.bds_threat_level,
             "created_time": self.created_time,
             "last_edit_time": self.last_modified,
             "last_open_time": self.last_open,
         }
-    @staticmethod
-    def map():
-        return {
-            "file_name": {"type": "keyword"},
-            "file_path": {"type": "keyword"},
-            "file_size": {"type": "int"},
-            "transcript":{"type": "text"},
-            "created_time": {"type": "date"},
-            "last_edit_time": {"type": "date"},
-            "last_open_time": {"type": "date"},
-        }
+    def add_bds_stat(self,stats:dict):
+        self.bds_percent = stats["bds_percent"]
+        self.is_bds = stats["is_bds"]
+        self.bds_threat_level = stats["bds_threat_level"]
